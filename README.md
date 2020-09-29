@@ -1,5 +1,5 @@
 dojot Graphical Management Interface 
-=====================================
+===================================== ddd
 
 This package implements a WEB user interface for the management and configuration of the
 dojot's basic functionality.
