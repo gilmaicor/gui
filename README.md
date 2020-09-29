@@ -1,4 +1,4 @@
-dojot Graphical Management Interface
+dojot Graphical Management Interface TESTE2
 =====================================
 
 This package implements a WEB user interface for the management and configuration of the
