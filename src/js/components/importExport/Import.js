@@ -74,7 +74,7 @@ class Import extends Component {
                     toaster.error(t('importExport:import.error.read'));
                     this.openModal(false);
                 }
-            this.showLoading(false);
+                this.showLoading(false);
             };
             reader.onerror = () => {
                 toaster.error(t('importExport:import.error.read'));
