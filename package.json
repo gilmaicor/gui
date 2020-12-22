@@ -46,7 +46,13 @@
     "sass"
   ],
   "author": "",
-  "license": "MIT",
+  "license": "Apache-2.0",
+  "licenses": [
+    {
+      "type": "Apache-2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ],
   "dependencies": {
     "@casl/ability": "^2.5.1",
     "@casl/react": "^0.8.1",
