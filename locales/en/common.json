@@ -131,6 +131,8 @@
         "invalid_timeout_2": "Invalid device timeout value. This is not a integer",
         "not_perm": "Your profile does not have the required permissions for this action.",
         "api_404": "API not found.",
+        "api_502": "Fail to access server.",
+        "api_503": "Service temporarily unavailable.",
         "alpha_number_hyphen": "Please use only letters (a-z), numbers (0-9) , hyphens (-),  colon (:) and underscores (_).",
         "alpha_number_space_hyphen": "Please use only letters (a-z), numbers (0-9) , spaces ( ), hyphens (-),  colon (:) and underscores (_)."
     },
@@ -138,5 +140,4 @@
         "full_date": "MM/DD/YYYY",
         "day_mouth": "MM/DD"
     }
-
 }

@@ -130,6 +130,8 @@
         "invalid_timeout_2": "Valor de tempo limite do dispositivo inválido. Não é um inteiro",
         "not_perm": "Seu perfil não tem as permissões necessárias para esta ação.",
         "api_404": "API não encontrada.",
+        "api_502": "Falha ao acessar servidor.",
+        "api_503": "Serviço temporariamente indisponível.",
         "alpha_number_hyphen": "Por favor use apenas letras (a-z), números (0-9), hífens (-), dois pontos (:) e sublinhados (_).",
         "alpha_number_space_hyphen": "Por favor use apenas letras (a-z), números (0-9), espaços (), hífens (-), dois pontos (:) e sublinhados (_)."
     },
