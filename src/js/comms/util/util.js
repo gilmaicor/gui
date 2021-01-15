@@ -181,7 +181,6 @@ class Util {
     }
 
     async _status(response) {
-        console.log("_status", response);
         if ((response.status === 401)) {
             LoginActions.logout();
         }
