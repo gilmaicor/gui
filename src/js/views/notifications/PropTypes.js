@@ -1,12 +1,12 @@
 import {
-    shape, string, any,
+    shape, string, boolean,
 } from 'prop-types';
 
 const notificationType = shape({
-    date: string,
-    time: string,
+    datetime: string,
     message: string,
-    metas: any,
+    isUTF: boolean,
+    metas: shape({}),
 });
 
 export default notificationType;

@@ -1,4 +1,3 @@
-import util from 'Comms/util';
 import alt from '../alt';
 import notificationsActions from '../actions/NotificationActions';
 
@@ -35,12 +34,12 @@ class NotificationStore {
         } = notification;
 
         const metas = metaAttrsFilter || {};
-
+        const isUTC = ts || timestamp;
         this.notifications = [{
             message,
             metas,
-            time: util.utcToHourMinSec(ts) || util.timestampToHourMinSec(timestamp),
-            date: util.utcToDayMonthYear(ts) || util.timestampToDayMonthYear(timestamp),
+            datetime: ts || timestamp,
+            isUTC,
         },
         ...this.notifications,
         ];

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withNamespaces } from 'react-i18next';
+import util from 'Comms/util';
 import notificationType from './PropTypes';
 
 const MetaNotification = (props) => {
@@ -47,11 +48,15 @@ class CardNotification extends Component {
     render() {
         const {
             notification: {
-                date, time, message, metas,
+                datetime, message, metas, isUTC,
             }, t: i18n,
         } = this.props;
 
         const { isShowMetas } = this.state;
+        const formattedDate = isUTC ? util.utcToDayMonthYear(datetime)
+            : util.timestampToDayMonthYear(datetime);
+        const formattedTime = isUTC ? util.utcToHourMinSec(datetime)
+            : util.timestampToHourMinSec(datetime);
 
         return (
             <li>
@@ -69,16 +74,16 @@ class CardNotification extends Component {
                                 aria-hidden="true"
                             />
                             <div className="datetime">
-                                <div className="date">{date}</div>
+                                <div className="date">{formattedDate}</div>
                                 <div className="time">
-                                    {time}
+                                    {formattedTime}
                                 </div>
                             </div>
                         </div>
                         <div className="second-col-noti">
                             <div className="info-row">
                                 <div className={typeof message === 'string' ? 'main' : 'error'}>
-                                    {typeof message === 'string' ? message : i18n('notifications:message_error') }
+                                    {typeof message === 'string' ? message : i18n('notifications:message_error')}
                                 </div>
                                 <div className="sub">
                                     {i18n('notifications:message')}
@@ -116,8 +121,7 @@ CardNotification.propTypes = {
 
 CardNotification.defaultProps = {
     notification: {
-        date: '',
-        time: '',
+        datetime: '',
         message: '',
         metas: {},
     },
