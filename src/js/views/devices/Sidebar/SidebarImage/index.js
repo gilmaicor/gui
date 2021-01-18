@@ -22,7 +22,6 @@ import {
 } from 'Comms/firmware/FirmwareMetasConst';
 import FWSocketIO from './FWSocketIO';
 
-
 const StateFirmwareDevice = (props) => {
     const {
         version, state, result, transferred, t, showTransferred, showTransferring, showApplying,
@@ -290,12 +289,13 @@ class SidebarImage extends Component {
         const { templateIdAllowedImage: templateId } = this.state;
         const device = ds.devices[deviceId];
         let relatedLabel = '';
-        if (!device || !device.attrs || device.attrs.length < 1) {
+        if (!device || !device.attrs
+            || device.attrs.length < 1 || device.attrs.length === undefined) {
             return relatedLabel;
         }
         device.attrs[templateId].forEach((attr) => {
             if (attr.metadata) {
-                const el = attr.metadata.filter(meta => meta.label === labelMeta);
+                const el = attr.metadata.filter((meta) => meta.label === labelMeta);
                 if (el.length) {
                     relatedLabel = attr.label;
                 } // found the attr
@@ -399,7 +399,6 @@ class SidebarImage extends Component {
         return items;
     }
 
-
     showModalApply() {
         this.setState({ showApplyModal: true });
     }
@@ -479,7 +478,7 @@ class SidebarImage extends Component {
                                         <div className="body-form-fw">
                                             <ImgToTransfer
                                                 currentImgId={this.currentImageId}
-                                                onChange={e => this.onChangeImage(e)}
+                                                onChange={(e) => this.onChangeImage(e)}
                                                 options={listAvailableOptionsImages}
                                                 onClickBtnTransfer={this.callUploadImage}
                                                 onClickBtnApply={this.showModalApply}
@@ -523,8 +522,7 @@ class SidebarImage extends Component {
                                 </div>
                             </div>
                         )
-                        : <div />
-                    }
+                        : <div />}
                 </Slide>
                 {fwImageModifier
                     ? (
@@ -539,7 +537,6 @@ class SidebarImage extends Component {
         );
     }
 }
-
 
 SidebarImage.defaultProps = {
     showSidebarImage: false,
@@ -560,6 +557,5 @@ SidebarImage.propTypes = {
         devices: PropTypes.array,
     }),
 };
-
 
 export default withNamespaces()(SidebarImage);
