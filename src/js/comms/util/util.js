@@ -32,7 +32,7 @@ class Util {
         }
     }
 
-    checkWidthToStateOpen(opened){
+    checkWidthToStateOpen(opened) {
         const width =
             window.innerWidth ||
             document.documentElement.clientWidth ||
@@ -45,7 +45,7 @@ class Util {
      * Full Url
      * @returns {string} Ex.: http://localhost:8000
      */
-    getFullURL(){
+    getFullURL() {
         return `${window.location.protocol}//${window.location.host}`;
     }
 
@@ -53,7 +53,7 @@ class Util {
      *  Full Url for socketIO
      * @returns {string} Ex.: http://localhost:8000/stream/socketio
      */
-    getUrlTokenSocketIO(){
+    getUrlTokenSocketIO() {
         return `${this.getFullURL()}/stream/socketio`;
     }
 
@@ -66,7 +66,7 @@ class Util {
         return window.localStorage.getItem('jwt');
     }
 
-    getUserLoggedInfo(){
+    getUserLoggedInfo() {
         return JSON.parse(atob(this.getToken().split('.')[1]));
     }
 
@@ -98,7 +98,7 @@ class Util {
             if (objPermStr === undefined) {
                 window.localStorage.removeItem('roles');
             } else {
-                window.localStorage.setItem('roles',objPermStr);
+                window.localStorage.setItem('roles', objPermStr);
             }
         } catch (e) {
             localStoragePolyFill();
@@ -158,7 +158,6 @@ class Util {
 
     _runFetch(url, config) {
         const local = this;
-
         let authConfig = config || {};
         authConfig.credentials = 'include';
         if (this.getToken()) {
@@ -182,7 +181,6 @@ class Util {
     }
 
     async _status(response) {
-
         if ((response.status === 401)) {
             LoginActions.logout();
         }
@@ -191,9 +189,10 @@ class Util {
             return Promise.reject(i18n.t('errors_msg.not_perm'));
         }
 
-        if (response.status === 500) return Promise.reject(response);
-
+        if (response.status === 503) return Promise.reject(new FetchError(response, i18n.t('errors_msg.api_503')));
+        if (response.status === 502) return Promise.reject(new FetchError(response, i18n.t('errors_msg.api_502')));
         if (response.status === 404) return Promise.reject(new FetchError(response, i18n.t('errors_msg.api_404')));
+        if (response.status === 500) return Promise.reject(response);
 
         const body = await response.json();
         response.message = body.message;
@@ -223,8 +222,7 @@ class Util {
     }
 
     guid() {
-        return `${this.s4() + this.s4()}-${this.s4()}-${this.s4()}-${
-            this.s4()}-${this.s4()}${this.s4()}${this.s4()}`;
+        return `${this.s4() + this.s4()}-${this.s4()}-${this.s4()}-${this.s4()}-${this.s4()}${this.s4()}${this.s4()}`;
     }
 
     // to get formatted date
@@ -233,39 +231,39 @@ class Util {
     }
 
     iso_to_date(timestamp) {
-        return moment(timestamp).format(i18n.t('format.full_date')+ ' HH:mm:ss');
+        return moment(timestamp).format(i18n.t('format.full_date') + ' HH:mm:ss');
     }
 
     iso_to_date_hour(timestamp) {
-        return moment(timestamp).format(i18n.t('format.day_mouth')+' HH:mm');
+        return moment(timestamp).format(i18n.t('format.day_mouth') + ' HH:mm');
     }
 
     timestampToHourMinSec(timestamp) {
-        return timestamp? moment(timestamp).format('HH:mm:ss') : null;
+        return timestamp ? moment(timestamp).format('HH:mm:ss') : null;
     }
 
     timestampToDayMonthYear(timestamp) {
-        return timestamp? moment(timestamp).format(i18n.t('format.full_date')): null;
+        return timestamp ? moment(timestamp).format(i18n.t('format.full_date')) : null;
     }
 
     utcToHourMinSec(utc) {
-        return utc? moment.parseZone(utc).utc().local().format('HH:mm:ss') : null;
+        return utc ? moment.parseZone(utc).utc().local().format('HH:mm:ss') : null;
     }
 
     utcToDayMonthYear(utc) {
-        return utc? moment.parseZone(utc).utc().local().format(i18n.t('format.full_date')): null;
+        return utc ? moment.parseZone(utc).utc().local().format(i18n.t('format.full_date')) : null;
     }
 
     isNameValid(name) {
         const ret = { result: true, error: '', label: name.trim() };
         if (name.trim().length === 0) {
             ret.result = false;
-            ret.error =  i18n.t('errors_msg.name_empty');
+            ret.error = i18n.t('errors_msg.name_empty');
             return ret;
         }
         if (name.match(REGEX_ALPHA_NUMBER_HYPHEN_2_POINTS_SPACE_UNDER) == null) {
             ret.result = false;
-            ret.error = i18n.t('errors_msg.alpha_number_space_hyphen')  ;
+            ret.error = i18n.t('errors_msg.alpha_number_space_hyphen');
             return ret;
         }
         return ret;
@@ -300,14 +298,14 @@ class Util {
         if (dynamic === 'actuator' && value.length === 0) return ret;
         if (type.trim().length == 0) {
             ret.result = false;
-            ret.error =  i18n.t('errors_msg.set_type')  ;
+            ret.error = i18n.t('errors_msg.set_type');
             return ret;
         }
         if (dynamic === 'dynamic' && value.length === 0) return ret;
         const validator = {
             string(value) {
                 ret.result = value.trim().length > 0;
-                ret.error = i18n.t('errors_msg.invalid_text')  ;
+                ret.error = i18n.t('errors_msg.invalid_text');
                 return ret;
             },
             'geo:point': function (value) {
@@ -317,7 +315,7 @@ class Util {
                 const re = /^([+-]?\d+(\.\d+)?)([,]\s*)([+-]?\d+(\.\d+)?)$/;
                 ret.result = re.test(value);
                 if (ret.result === false) {
-                    ret.error = i18n.t('errors_msg.invalid_geo')  ;
+                    ret.error = i18n.t('errors_msg.invalid_geo');
                 }
                 return ret;
             },
@@ -325,7 +323,7 @@ class Util {
                 const re = /^[+-]?\d+$/;
                 ret.result = re.test(value);
                 if (ret.result === false) {
-                    ret.error = i18n.t('errors_msg.invalid_int')  ;
+                    ret.error = i18n.t('errors_msg.invalid_int');
                 }
                 return ret;
             },
@@ -333,7 +331,7 @@ class Util {
                 const re = /^[+-]?\d+(\.\d+)?$/;
                 ret.result = re.test(value);
                 if (ret.result === false) {
-                    ret.error =  i18n.t('errors_msg.invalid_float')  ;
+                    ret.error = i18n.t('errors_msg.invalid_float');
                 }
                 return ret;
             },
@@ -341,7 +339,7 @@ class Util {
                 const re = /^0|1|true|false$/;
                 ret.result = re.test(value);
                 if (ret.result === false) {
-                    ret.error =   i18n.t('errors_msg.invalid_bool')  ;
+                    ret.error = i18n.t('errors_msg.invalid_bool');
                 }
                 return ret;
             },
@@ -350,24 +348,24 @@ class Util {
             },
             'protocol': function (value) {
                 ret.result = value.trim().length > 0;
-                ret.error =  i18n.t('errors_msg.invalid_protocol')  ;
+                ret.error = i18n.t('errors_msg.invalid_protocol');
                 return ret;
             },
             'topic': function (value) {
                 ret.result = value.trim().length > 0;
-                ret.error = i18n.t('errors_msg.invalid_topic')  ;
+                ret.error = i18n.t('errors_msg.invalid_topic');
                 return ret;
             },
             'translator': function (value) {
                 ret.result = value.trim().length > 0;
-                ret.error =  i18n.t('errors_msg.invalid_translator')  ;
+                ret.error = i18n.t('errors_msg.invalid_translator');
                 return ret;
             },
             'device_timeout': function (value) {
                 const re = /^[+-]?\d+$/;
                 ret.result = re.test(value);
                 if (ret.result === false) {
-                    ret.error =  i18n.t('errors_msg.invalid_timeout')  ;
+                    ret.error = i18n.t('errors_msg.invalid_timeout');
                 }
                 return ret;
             },
@@ -378,23 +376,23 @@ class Util {
         }
 
         return ret;
-  }
+    }
 
-  isDeviceTimeoutValid(device_timeout) {
-      let ret = {result: true, error: ""};
-      if (device_timeout.length === 0) {
-          ret.result = false;
-          ret.error = i18n.t('errors_msg.empty_timeout')  ;
-          return ret;
-      }
+    isDeviceTimeoutValid(device_timeout) {
+        let ret = { result: true, error: "" };
+        if (device_timeout.length === 0) {
+            ret.result = false;
+            ret.error = i18n.t('errors_msg.empty_timeout');
+            return ret;
+        }
 
-      const re = /^[+-]?\d+$/;
-      ret.result = re.test(device_timeout);
-      if (ret.result === false) {
-          ret.error =  i18n.t('errors_msg.invalid_timeout_2')  ;
-      }
-      return ret;
-  }
+        const re = /^[+-]?\d+$/;
+        ret.result = re.test(device_timeout);
+        if (ret.result === false) {
+            ret.error = i18n.t('errors_msg.invalid_timeout_2');
+        }
+        return ret;
+    }
 }
 
 const util = new Util();
