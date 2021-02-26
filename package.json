@@ -92,7 +92,7 @@
     "moment": "^2.22.2",
     "node-libs-browser": "^2.1.0",
     "node-sass": "~4.9",
-    "pkijs": "^2.1.80",
+    "pkijs": "^2.1.93",
     "prop-types": "^15.6.2",
     "pvutils": "^1.0.17",
     "react": "^16.8.6",
